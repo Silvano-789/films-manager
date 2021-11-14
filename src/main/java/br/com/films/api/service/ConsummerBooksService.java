@@ -11,7 +11,7 @@ import br.com.films.api.model.Book;
 
 @FeignClient(name = "books-manager", url = "http://localhost:8080")
 @RequestMapping("/api/books")
-public interface ConsummerBookService {
+public interface ConsummerBooksService {
 
 	@GetMapping(value = "/list")
 	List<Book> FindBookByTitle(@RequestParam String title);

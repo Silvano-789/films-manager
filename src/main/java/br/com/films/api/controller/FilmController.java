@@ -1,5 +1,6 @@
 package br.com.films.api.controller;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.films.api.dto.DataDTO;
-import br.com.films.api.model.Book;
 import br.com.films.api.model.Film;
-import br.com.films.api.service.ConsummerBookService;
+import br.com.films.api.service.ConsummerBooksService;
 import br.com.films.api.service.FilmService;
 
 @RestController
@@ -25,8 +25,8 @@ public class FilmController {
 	@Autowired
 	private FilmService filmService;
 	
-	@Autowired 
-	private ConsummerBookService consummerBookService;
+	@Autowired
+	private ConsummerBooksService consummerBooksService;
 
 	@PostMapping(value = "/save")
 	@ResponseStatus(value = HttpStatus.CREATED)
@@ -36,13 +36,12 @@ public class FilmController {
 	
 	@GetMapping(value = "/list")
 	public DataDTO listFilm (@RequestParam String title) {
+	    
+		DataDTO dto = new DataDTO();
 		
-		DataDTO bookRegister = new DataDTO();
+		dto.setListBooks(consummerBooksService.FindBookByTitle(title));
+		dto.setListFilms(filmService.findByTitle(title));
 		
-		bookRegister.setListBooks(consummerBookService.FindBookByTitle(title));
-		bookRegister.setListFilms(filmService.findByTitle(title));
-		
-		return bookRegister;
-		
+		return dto;	
 	}
 }
