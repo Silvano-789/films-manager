@@ -1,7 +1,6 @@
 package br.com.films.api.controller;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,6 @@ import br.com.films.api.service.FilmService;
 @RequestMapping("/api/films")
 public class FilmController {
 	
-	private int cont = 0;
-	
 	@Autowired
 	private FilmService filmService;
 	
@@ -39,12 +36,8 @@ public class FilmController {
 	}
 	
 	@GetMapping(value = "/list")
-	public List<DataDTO> listFilm (@RequestParam String title) {	    
-		
-		if(cont == 0) {
+	public List<DataDTO> listFilm (@RequestParam String title) {	    	
 		  return dataBuilder(title);
-		}
-		return Collections.emptyList();
 	}
 	
 	private List<DataDTO> dataBuilder (String title) {
@@ -77,7 +70,6 @@ public class FilmController {
 			
 			dataCollect.add(dtoFilm);
 		}
-		cont = cont+1;
 		return dataCollect;
 		     
 	}
