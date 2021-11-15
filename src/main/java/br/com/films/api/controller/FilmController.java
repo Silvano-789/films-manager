@@ -1,6 +1,7 @@
 package br.com.films.api.controller;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.films.api.dto.DataDTO;
+import br.com.films.api.model.Book;
 import br.com.films.api.model.Film;
 import br.com.films.api.service.ConsummerBooksService;
 import br.com.films.api.service.FilmService;
@@ -21,6 +23,8 @@ import br.com.films.api.service.FilmService;
 @RestController
 @RequestMapping("/api/films")
 public class FilmController {
+	
+	private int cont = 0;
 	
 	@Autowired
 	private FilmService filmService;
@@ -35,13 +39,46 @@ public class FilmController {
 	}
 	
 	@GetMapping(value = "/list")
-	public DataDTO listFilm (@RequestParam String title) {
-	    
-		DataDTO dto = new DataDTO();
+	public List<DataDTO> listFilm (@RequestParam String title) {	    
 		
-		dto.setListBooks(consummerBooksService.FindBookByTitle(title));
-		dto.setListFilms(filmService.findByTitle(title));
+		if(cont == 0) {
+		  return dataBuilder(title);
+		}
+		return Collections.emptyList();
+	}
+	
+	private List<DataDTO> dataBuilder (String title) {
 		
-		return dto;	
+		List<DataDTO> dataCollect = new ArrayList<DataDTO>();
+		
+		List<Book> listBook = consummerBooksService.FindBookByTitle(title);
+		DataDTO dtoBook = new DataDTO();
+		for (Book book : listBook) {
+			  dtoBook.setTitle(book.getTitle());
+			  dtoBook.setAuthor(book.getAuthor());
+			  dtoBook.setCountry(book.getCountry());
+			  dtoBook.setReleaseDate(book.getReleaseDate());
+			  dtoBook.setPublisher(book.getPublisher());
+			  dtoBook.setType(book.getType());
+			  
+			  dataCollect.add(dtoBook);
+		}
+		
+		List<Film> listFilm = filmService.findByTitle(title);
+		DataDTO dtoFilm = new DataDTO();
+		for (Film film : listFilm) {
+			
+			dtoFilm.setTitle(film.getTitle());
+			dtoFilm.setAuthor(film.getAuthor());
+			dtoFilm.setCountry(film.getCountry());
+			dtoFilm.setReleaseDate(film.getReleaseDate());
+			dtoFilm.setPublisher(film.getCinematography());
+			dtoFilm.setType(film.getType());
+			
+			dataCollect.add(dtoFilm);
+		}
+		cont = cont+1;
+		return dataCollect;
+		     
 	}
 }

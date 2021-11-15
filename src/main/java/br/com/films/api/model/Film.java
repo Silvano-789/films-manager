@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "film")
 public class Film {
 
-	@JsonIgnore
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
