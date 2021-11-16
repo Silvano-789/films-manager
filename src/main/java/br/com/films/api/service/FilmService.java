@@ -9,11 +9,14 @@ public interface FilmService {
 	Film saveFilm (Film film);
 	
 	/*It changes a register on database*/
-	void updateBook (Long id ,Film film);
+	void updateFilm (Long id ,Film film);
 	
 	/*It deletes a register on database*/
 	void deleteFilm (Long id);
 	
+	/*It find all registers from database*/
+	List<Film> listAllFilms();
+	
 	/*It lists films by title*/
-	List<Film> findByTitle (String title);
+	List<Film> findFilmByTitle (String title);
 }

@@ -10,6 +10,7 @@ import br.com.films.api.model.Film;
 
 public interface FilmRepository extends JpaRepository<Film, Long>{
 
+	/*Method used on integration*/
 	@Query("SELECT f FROM Film f WHERE f.title LIKE %:title%")
 	List<Film> findByTitle (@Param("title") String title);
 }

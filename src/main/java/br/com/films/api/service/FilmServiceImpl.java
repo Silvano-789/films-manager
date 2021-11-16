@@ -24,9 +24,8 @@ public class FilmServiceImpl implements FilmService {
 		return filmRepository.save(film);
 	}
 
-	@Override
 	@Transactional
-	public void updateBook(Long id, Film film) {
+	public void updateFilm(Long id, Film film) {
 		filmRepository.findById(id)
 					  .map(filmExists -> {
 						  film.setId(filmExists.getId());
@@ -36,15 +35,28 @@ public class FilmServiceImpl implements FilmService {
 		
 	}
 
-	@Override
+	@Transactional
 	public void deleteFilm(Long id) {
-		// TODO Auto-generated method stub
+		filmRepository.findById(id)
+		  .map(filmExists -> {
+		  filmRepository.delete(filmExists);
+		  return Void.TYPE;
+		  }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "This register don´t exist on database!"));
 		
 	}
+	
+	public List<Film> listAllFilms() {
+		return filmRepository.findAll();
+	}
 
-	@Override
-	public List<Film> findByTitle(String title) {
+	public List<Film> findFilmByTitle(String title) {
 		return filmRepository.findByTitle(title);
+	}
+	
+
+	public Film findFilmById(Long id) {
+		return filmRepository.findById(id)
+				             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "The register was not found!"));
 	}
 
 }
