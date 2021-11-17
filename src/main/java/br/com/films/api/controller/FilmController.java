@@ -99,7 +99,7 @@ public class FilmController {
 			dtoFilm.setAuthor(film.getAuthor());
 			dtoFilm.setCountry(film.getCountry());
 			dtoFilm.setReleaseDate(film.getReleaseDate());
-			dtoFilm.setPublisher(film.getCinematography());
+			dtoFilm.setCinematography(film.getCinematography());
 			dtoFilm.setType(film.getType());
 			
 			dataCollect.add(dtoFilm);
