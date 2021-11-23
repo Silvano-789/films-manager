@@ -63,7 +63,7 @@ public class FilmController {
 	
 	/*This endpoint is to books-manager API consumes*/
 	@GetMapping("/list-films")
-	public List<Film> findFilmByTitle (String title) {
+	public List<Film> findFilmByTitle (@RequestParam String title) {
 	      return filmService.findFilmByTitle(title);
 	}
 	
