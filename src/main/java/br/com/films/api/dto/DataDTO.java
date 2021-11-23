@@ -27,14 +27,14 @@ public class DataDTO{
 
 	private String releaseDate;
 
-    private String type;
-    
-    @JsonInclude(value = Include.NON_NULL)
-    private String publisher;
-    @JsonInclude(value = Include.NON_NULL)
+	@JsonInclude(value = Include.NON_NULL)
+	private String publisher;
+	
+	@JsonInclude(value = Include.NON_NULL)
     private String cinematography;
-    
-    
+	
+    private String type;
+  
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
