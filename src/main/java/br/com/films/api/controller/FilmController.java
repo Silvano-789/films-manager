@@ -1,6 +1,7 @@
 package br.com.films.api.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,53 +35,55 @@ public class FilmController {
 	private ConsummerBooksService consummerBooksService;
 
 	/*Save endpoint*/
-	@PostMapping(value = "/save")
-	@ResponseStatus(value = HttpStatus.CREATED)
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	public Film saveFilm (@RequestBody Film film) {
 		return filmService.saveFilm(film); 
 	}
 	
 	/*Update endpoint*/
-	@PutMapping(value = "/update/{id}")
-	@ResponseStatus(value = HttpStatus.CREATED)
+	@PutMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
 	public void updateBook (@PathVariable(name = "id") Long id,  @RequestBody Film film) {
 	    filmService.updateFilm(id, film);
 	}
 	
 	/*Delete endpoint*/
-	@DeleteMapping(value = "/delete/{id}")
-	@ResponseStatus(value = HttpStatus.OK)
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
 	public void delete (@PathVariable(name = "id") Long id) {
 		filmService.deleteFilm(id);
 	}
 	
 	/*List all endpoint*/
-	@GetMapping(value = "/list-all")
+	@GetMapping
 	public List<Film> listAllFilms (String title) {
 	      return filmService.listAllFilms();
 	}
 	
 	/*This endpoint is to books-manager API consumes*/
-	@GetMapping(value = "/list-films")
+	@GetMapping("/list-films")
 	public List<Film> findFilmByTitle (String title) {
 	      return filmService.findFilmByTitle(title);
 	}
 	
 	/*List with filter endpoint*/
-	@GetMapping(value = "/list")
+	@GetMapping("/list")
 	public List<DataDTO> listRegisters (@RequestParam String title) {	    	
 			  return dataBuilder(title);
 	}
 	
 	/*This method is to build the informations on DataDTO object */
 	private List<DataDTO> dataBuilder (String title) {
-		
+	
+	if(!title.isEmpty()) {
 		List<DataDTO> dataCollect = new ArrayList<DataDTO>();
 		
 		List<Book> listBook = consummerBooksService.FindBookByTitle(title);
-		DataDTO dtoBook = new DataDTO();
+		
 		for (Book book : listBook) {
-			
+			  DataDTO dtoBook = new DataDTO();
+			  
 			  dtoBook.setTitle(book.getTitle());
 			  dtoBook.setAuthor(book.getAuthor());
 			  dtoBook.setCountry(book.getCountry());
@@ -92,8 +95,9 @@ public class FilmController {
 		}
 		
 		List<Film> listFilm = filmService.findFilmByTitle(title);
-		DataDTO dtoFilm = new DataDTO();
+		
 		for (Film film : listFilm) {
+			 DataDTO dtoFilm = new DataDTO();
 			
 			dtoFilm.setTitle(film.getTitle());
 			dtoFilm.setAuthor(film.getAuthor());
@@ -107,4 +111,7 @@ public class FilmController {
 		return dataCollect;
 		     
 	}
+	return Collections.emptyList();
+  }
+	
 }

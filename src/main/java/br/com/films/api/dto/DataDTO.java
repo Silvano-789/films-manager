@@ -4,6 +4,8 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 
-public class DataDTO extends BookFilmDTO{
+public class DataDTO{
 
 	@JsonIgnore
     private Long id;
@@ -26,6 +28,12 @@ public class DataDTO extends BookFilmDTO{
 	private String releaseDate;
 
     private String type;
+    
+    @JsonInclude(value = Include.NON_NULL)
+    private String publisher;
+    @JsonInclude(value = Include.NON_NULL)
+    private String cinematography;
+    
     
 	@Override
 	public boolean equals(Object obj) {
